@@ -10,19 +10,25 @@ public class problem3 {
         int j = 0;
         HashMap<Character, Integer> map = new HashMap<>();
         for (int i = 0; i < s.length(); i++) {
-            if (map.keySet().contains(s.charAt(i))) {
+            if (map.containsKey(s.charAt(i))) {
                 int k = map.get(s.charAt(i)) + 1;
-                System.out.println("k:"+k);
+                System.out.println("k:" + k);
                 j = (k > j) ? k : j;
                 System.out.println("map contains " + s.charAt(i) + ", j:" + j);
-            } 
+            }
             map.put(s.charAt(i), i);
             res = res > (i - j + 1) ? res : (i - j + 1);
-            System.out.println("j:"+j);
-            System.out.println("map:"+map.toString());
-            System.out.println("res:"+res);
+            System.out.println("j:" + j);
+            System.out.println("map:" + map.toString());
+            System.out.println("res:" + res);
         }
         return res;
+        // int[] cache = new int[256];
+        // for (int i = 0, j = 0; i < s.length(); i++) {
+        // j = (cache[s.charAt(i)] > 0) ? Math.max(j, cache[s.charAt(i)]) : j;
+        // cache[s.charAt(i)] = i + 1;
+        // result = Math.max(result, i - j + 1);
+        // }
     }
 
     /**
