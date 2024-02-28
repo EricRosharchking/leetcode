@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class problem3 {
     public int lengthOfLongestSubstring(String s) {
