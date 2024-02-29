@@ -10,32 +10,31 @@ class Solution {
         if (nums.length < 3) {
             return nums.length;
         }
+        int prevIndex = -1;
         int currIndex = 0;
         // currNumber, 1 or 2 occur
         // nextNumber, multiple occur
         int removed = 0;
         int nextIndex = 0;
-        while (nextIndex < nums.length) {
-            if (nextIndex < nums.length && nums[currIndex] == nums[nextIndex]) {
+        while (currIndex < nums.length) {
+            while (nextIndex < nums.length && nums[currIndex] == nums[nextIndex]) {
                 nextIndex++;
-            } else {
-                if (nextIndex < nums.length) {
-                    int tmpIndex = nextIndex;
-                    while (tmpIndex < nums.length && nums[tmpIndex] == nums[nextIndex]) {
-                        tmpIndex++;
-                    }
-                    if (nextIndex - currIndex > 2 + removed) {
-                        nums[currIndex + 1] = nums[currIndex];
-                        nums[currIndex + 2 + removed] = nums[nextIndex];
-                        removed += (nextIndex - currIndex - 2);
-                        currIndex += 2;
-                    } else {
-                        nums[currIndex + 1] = nums[nextIndex];
-                        currIndex += 1;
-                    }
-                    nextIndex = tmpIndex;
-                }
             }
+            if (nextIndex - currIndex == 1) {
+                nums[prevIndex+1] = nums[currIndex];
+                prevIndex += 1;
+            } else if (nextIndex - currIndex == 2) {
+                nums[prevIndex+1] = nums[currIndex];
+                nums[prevIndex+2] = nums[currIndex];
+                prevIndex += 2;
+            }
+            if (nextIndex - currIndex > 2) {
+                removed += (nextIndex - currIndex -2);
+                nums[prevIndex+1] = nums[currIndex];
+                nums[prevIndex+2] = nums[currIndex];
+                prevIndex += 2;
+            }
+            currIndex = nextIndex;
         }
         return nums.length - removed;
     }
