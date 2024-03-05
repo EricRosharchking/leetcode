@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Test {
 
@@ -20,12 +21,113 @@ public class Test {
         // int i = 1;
         // System.out.println((--i) == 0);
 
-        Test t = new Test();
-        int[][] arr = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, { 13, 14, 15, 16 } };
-        
-        for (int[] row : arr)
-        System.out.println(Arrays.toString(row));
-        t.rotate(arr);
+        // Test t = new Test();
+        // int[][] arr = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, { 13, 14,
+        // 15, 16 } };
+
+        // for (int[] row : arr)
+        // System.out.println(Arrays.toString(row));
+        // t.rotate(arr);
+        int[][] nums = { { 1,1,1 }, { 1,1,1 }, {1,1,1} };
+        for (int[] arr : nums) {
+            System.out.println(Arrays.toString(arr));
+        }
+        System.out.println((minOperationsToWriteY_3071(nums)));
+    }
+
+    public static int minOperationsToWriteY_3071(int[][] grid) {
+        int n = grid.length;
+        int[] nums_y = new int[3];
+        int[] nums = new int[3];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int num = grid[i][j];
+                if (i < n / 2) {
+                    if (j == i || j + i == n-1) {
+                        nums_y[num]++;
+                    } else {
+                        nums[num]++;
+                    }
+                } else if ( j == n/2) {
+                    nums_y[num]++;
+                } else {
+                    nums[num]++;
+                }
+            }
+        }
+        System.out.println(Arrays.toString(nums));
+        System.out.println(Arrays.toString(nums_y));
+        int res = n * n;
+        int a = n + n / 2;
+        int b = res - a;
+        for (int i = 0; i < 3; i++) {
+            int y = a - nums_y[i];
+            int others = 0;
+            if (i == 0) {
+                others = Math.min(b-nums[1], b-nums[2]);
+            }
+            if (i == 1) {
+                others = Math.min(b-nums[0], b-nums[2]);
+            }
+            if (i == 2) {
+                others = Math.min(b-nums[0], b-nums[1]);
+            }
+            System.out.println(y + "," + others);
+            res = Math.min(y+others, res);
+            
+        }
+        return res;
+    }
+
+    public static int countSubmitrices_3070(int[][] grid, int k) {
+        int sum = 0;
+        int res = 0;
+        int[][] matrix = new int[grid.length][grid[0].length];
+        for (int i = 0; i < grid.length; i++) {
+            sum = 0;
+            for (int j = 0; j < grid[i].length; j++) {
+                sum += grid[i][j];
+                matrix[i][j] = sum;
+            }
+        }
+        sum = 0;
+        for (int i = 1; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                matrix[i][j] += matrix[i-1][j];
+            }
+        }
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (matrix[i][j] > k) {
+                    break;
+                }
+                res++;
+            }
+        }
+        return res;
+    }
+
+    public static int[] distributeElements_3069(int[] nums) {
+        int n = nums.length;
+        int[] arr1 = new int[n];
+        int[] arr2 = new int[n];
+        int x = 0;
+        int y = 0;
+        arr1[x] = nums[0];
+        arr2[y] = nums[1];
+        for (int i = 2; i < n; i++) {
+            if (arr1[x] > arr2[y]) {
+                arr1[++x] = nums[i];
+            } else {
+                arr2[++y] = nums[i];
+            }
+        }
+        System.out.println("x: " + x + "," + Arrays.toString(arr1));
+        System.out.println("y: " + y + "," + Arrays.toString(arr2));
+        for (int i = 0; i < y + 1; i++) {
+            arr1[x + 1 + i] = arr2[i];
+        }
+        return arr1;
     }
 
     public static String addBinary(String a, String b) {
@@ -81,4 +183,5 @@ public class Test {
         }
 
     }
+
 }
