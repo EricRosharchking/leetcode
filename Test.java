@@ -28,11 +28,31 @@ public class Test {
         // for (int[] row : arr)
         // System.out.println(Arrays.toString(row));
         // t.rotate(arr);
-        int[][] nums = { { 1,1,1 }, { 1,1,1 }, {1,1,1} };
+        int[][] nums = { { 1,2,3,4} };
         for (int[] arr : nums) {
             System.out.println(Arrays.toString(arr));
         }
-        System.out.println((minOperationsToWriteY_3071(nums)));
+        System.out.println(Arrays.toString(solution(nums[0])));
+    }
+    public static int[] solution(int[] nums) {
+        int n = nums.length;
+        int[] res = new int[n];
+        int[] prefix = new int[n];
+        int[] sufix = new int[n];
+        prefix[0] = 1;
+        sufix[n-1] = 1;
+        for (int i = 1; i < n; i++) {
+            prefix[i] = prefix[i-1] * nums [i-1];
+        }
+        for (int i = n-1; i > 0; i--) {
+            sufix[i-1] = sufix[i] * nums[i];
+        }
+        for (int i = 0; i < n; i++) {
+            res[i] = prefix[i] * sufix[i];
+        }
+        System.out.println(Arrays.toString(prefix));
+        System.out.println(Arrays.toString(sufix));
+        return res;
     }
 
     public static int minOperationsToWriteY_3071(int[][] grid) {
