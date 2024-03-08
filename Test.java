@@ -28,12 +28,66 @@ public class Test {
         // for (int[] row : arr)
         // System.out.println(Arrays.toString(row));
         // t.rotate(arr);
-        int[][] nums = { { 1,2,3,4} };
+        int[][] nums = { { 0,1,0,2,1,0,1,3,2,1,2,1},{4,2,0,3,2,5} };
         for (int[] arr : nums) {
             System.out.println(Arrays.toString(arr));
         }
-        System.out.println(Arrays.toString(solution(nums[0])));
+        System.out.println(trap(nums[0]));
     }
+
+    public static int trap(int[] height) {
+        int water = 0;
+        int peak = 0;
+        int peakIndex = 0;
+        for (int i = 0; i < height.length; i++) {
+            if (peak < height[i]) {
+                peakIndex = i;
+                peak = height[i];
+            }
+        }
+        System.out.println("Peak is " + peak + ", at index " + peakIndex);
+        int rightBankIndex = peakIndex;
+        int leftBankIndex = peakIndex;
+        while (rightBankIndex >= 0) {
+            int bank = 0;
+            int bankIndex = rightBankIndex - 1;
+            for (int i = 0; i < rightBankIndex; i++) {
+                if (bank < height[i]) {
+                    bank = height[i];
+                    bankIndex = i;
+                }
+            }
+            System.out.println("Bank is " + bank + ", LeftBank at index " + bankIndex + " RightBank at index " + rightBankIndex);
+            for (int i = bankIndex; i <= rightBankIndex && i >= 0; i++) {
+                if (bank >= height[i]) {
+                System.out.println("Tapping " + (bank - height[i]) + " water at " + i + " position");
+                water += (bank - height[i]);
+                }
+            }
+            rightBankIndex = bankIndex - 1;
+        }
+
+        while (leftBankIndex < height.length) {
+            int bank = 0;
+            int bankIndex = height.length - 1;
+            for (int i = bankIndex; i > leftBankIndex; i--) {
+                if (bank < height[i]) {
+                    bank = height[i];
+                    bankIndex = i;
+                }
+            }
+            System.out.println("Bank is " + bank + ", leftBank at index " + leftBankIndex + " RightBank at index " + bankIndex);
+            for (int i = bankIndex; i >= leftBankIndex && i < height.length; i--) {
+                if (bank >= height[i]) {
+                System.out.println("Tapping " + (bank - height[i]) + " water at " + i + " position");
+                water += (bank - height[i]);
+                }
+            }
+            leftBankIndex = bankIndex + 1;
+        }
+        return water;
+    }
+    
     public static int[] solution(int[] nums) {
         int n = nums.length;
         int[] res = new int[n];
